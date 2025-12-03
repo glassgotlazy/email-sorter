@@ -3,48 +3,16 @@ import random
 import string
 from datetime import datetime, timedelta
 import pandas as pd
-import time
 
 # Page configuration
 st.set_page_config(
     page_title="Free Temporary Email Generator - Disposable Email Address",
     page_icon="📧",
     layout="wide",
-    initial_sidebar_state="collapsed",
-    menu_items={
-        'Get Help': 'https://github.com/yourusername/temp-mail',
-        'Report a bug': 'https://github.com/yourusername/temp-mail/issues',
-        'About': """
-        # Temporary Email Generator
-        Protect your privacy with disposable email addresses!
-        
-        **Features:**
-        - Instant email generation
-        - Multiple domain options
-        - Copy with one click
-        - Auto-expiry
-        - No registration required
-        - Spam-free inbox
-        
-        Made with ❤️ using Streamlit
-        """
-    }
+    initial_sidebar_state="collapsed"
 )
 
-# SEO Meta Tags
-st.markdown("""
-<meta name="description" content="Free temporary email generator. Create disposable email addresses instantly. Avoid spam, protect privacy. No registration required. Anonymous and secure.">
-<meta name="keywords" content="temporary email, disposable email, temp mail, fake email, throwaway email, burner email, spam protection, privacy email, anonymous email">
-<meta name="author" content="Your Name">
-<meta name="robots" content="index, follow">
-<meta property="og:title" content="Free Temporary Email Generator - Disposable Email Address">
-<meta property="og:description" content="Generate disposable email addresses instantly. Protect your privacy, avoid spam. Free, no registration required.">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-""", unsafe_allow_html=True)
-
-# Futuristic CSS Design
+# Fixed CSS - removed problematic before/after pseudo elements
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
@@ -53,362 +21,172 @@ st.markdown("""
         font-family: 'Space Grotesk', sans-serif;
     }
     
-    /* Cyberpunk animated background */
     .stApp {
         background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .stApp::before {
-        content: '';
-        position: absolute;
-        width: 200%;
-        height: 200%;
-        background: 
-            radial-gradient(circle at 20% 50%, rgba(120, 0, 255, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(0, 255, 200, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 40% 20%, rgba(255, 0, 150, 0.1) 0%, transparent 50%);
-        animation: bgMove 20s ease infinite;
-    }
-    
-    @keyframes bgMove {
-        0%, 100% { transform: translate(0, 0); }
-        50% { transform: translate(-50px, -50px); }
     }
     
     .main .block-container {
-        background: rgba(15, 12, 41, 0.85);
+        background: rgba(15, 12, 41, 0.9);
         border-radius: 30px;
         padding: 3rem;
-        box-shadow: 
-            0 0 60px rgba(120, 0, 255, 0.3),
-            0 0 100px rgba(0, 255, 200, 0.2),
-            inset 0 0 80px rgba(255, 255, 255, 0.05);
+        box-shadow: 0 0 60px rgba(120, 0, 255, 0.3);
         backdrop-filter: blur(20px);
         border: 2px solid rgba(120, 0, 255, 0.3);
-        position: relative;
     }
     
-    /* Glowing title */
     .main-title {
         text-align: center;
         background: linear-gradient(135deg, #00f5ff 0%, #7b00ff 50%, #ff006e 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        font-size: 5rem;
+        font-size: 4rem;
         font-weight: 900;
         margin-bottom: 1rem;
-        animation: titleGlow 3s ease-in-out infinite;
-        letter-spacing: -4px;
-        text-shadow: 0 0 30px rgba(0, 245, 255, 0.5);
-        position: relative;
-    }
-    
-    @keyframes titleGlow {
-        0%, 100% { 
-            filter: brightness(1) drop-shadow(0 0 20px rgba(0, 245, 255, 0.6));
-        }
-        50% { 
-            filter: brightness(1.3) drop-shadow(0 0 40px rgba(123, 0, 255, 0.8));
-        }
+        letter-spacing: -3px;
     }
     
     .subtitle {
         text-align: center;
         color: #00f5ff;
-        font-size: 1.6rem;
+        font-size: 1.4rem;
         margin-bottom: 3rem;
         font-weight: 600;
-        text-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
-        animation: fadeInUp 1.5s ease;
     }
     
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    /* Neon card effect */
     .neon-card {
         background: linear-gradient(135deg, rgba(20, 20, 50, 0.9) 0%, rgba(30, 30, 60, 0.9) 100%);
         border-radius: 25px;
         padding: 3rem;
         margin: 2rem 0;
-        box-shadow: 
-            0 0 30px rgba(0, 245, 255, 0.3),
-            0 0 60px rgba(123, 0, 255, 0.2),
-            inset 0 0 30px rgba(255, 255, 255, 0.05);
-        border: 2px solid;
-        border-image: linear-gradient(135deg, #00f5ff, #7b00ff, #ff006e) 1;
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
+        box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+        border: 2px solid rgba(0, 245, 255, 0.3);
     }
     
-    .neon-card::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(45deg, transparent, rgba(0, 245, 255, 0.1), transparent);
-        animation: cardShine 3s linear infinite;
-    }
-    
-    @keyframes cardShine {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    
-    .neon-card:hover {
-        transform: translateY(-10px) scale(1.02);
-        box-shadow: 
-            0 0 50px rgba(0, 245, 255, 0.5),
-            0 0 100px rgba(123, 0, 255, 0.4);
-    }
-    
-    /* Email display box */
     .email-box {
         background: linear-gradient(135deg, rgba(0, 245, 255, 0.1) 0%, rgba(123, 0, 255, 0.1) 100%);
         border: 3px solid #00f5ff;
         border-radius: 20px;
         padding: 2rem;
         margin: 2rem 0;
-        box-shadow: 
-            0 0 30px rgba(0, 245, 255, 0.4),
-            inset 0 0 20px rgba(0, 245, 255, 0.1);
+        box-shadow: 0 0 30px rgba(0, 245, 255, 0.4);
         font-family: 'JetBrains Mono', monospace;
         font-size: 1.8rem;
         color: #00f5ff;
         text-align: center;
         font-weight: 700;
         letter-spacing: 2px;
-        animation: emailPulse 2s ease-in-out infinite;
-        position: relative;
+        word-break: break-all;
     }
     
-    @keyframes emailPulse {
-        0%, 100% { 
-            box-shadow: 0 0 30px rgba(0, 245, 255, 0.4), inset 0 0 20px rgba(0, 245, 255, 0.1);
-        }
-        50% { 
-            box-shadow: 0 0 50px rgba(0, 245, 255, 0.6), inset 0 0 30px rgba(0, 245, 255, 0.2);
-        }
-    }
-    
-    /* Cyber buttons */
     .stButton>button {
         width: 100%;
         background: linear-gradient(135deg, #00f5ff 0%, #7b00ff 100%);
         color: #0f0c29;
         border: none;
         border-radius: 15px;
-        padding: 1.5rem 3rem;
-        font-size: 1.3rem;
+        padding: 1.2rem 2rem;
+        font-size: 1.1rem;
         font-weight: 900;
         letter-spacing: 2px;
         text-transform: uppercase;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 
-            0 10px 40px rgba(0, 245, 255, 0.5),
-            0 0 20px rgba(123, 0, 255, 0.3);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .stButton>button::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        transition: left 0.5s;
-    }
-    
-    .stButton>button:hover::before {
-        left: 100%;
+        transition: all 0.3s;
+        box-shadow: 0 10px 30px rgba(0, 245, 255, 0.4);
     }
     
     .stButton>button:hover {
-        transform: translateY(-5px) scale(1.05);
-        box-shadow: 
-            0 20px 60px rgba(0, 245, 255, 0.7),
-            0 0 40px rgba(123, 0, 255, 0.5);
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(0, 245, 255, 0.6);
         background: linear-gradient(135deg, #7b00ff 0%, #ff006e 100%);
         color: white;
     }
     
-    .stButton>button:active {
-        transform: translateY(-2px) scale(1.02);
-    }
-    
-    /* Tabs with glow */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 20px;
+        gap: 15px;
         background: rgba(20, 20, 50, 0.5);
         border-radius: 20px;
-        padding: 1.5rem;
-        box-shadow: 
-            inset 0 0 30px rgba(0, 0, 0, 0.5),
-            0 0 20px rgba(0, 245, 255, 0.2);
+        padding: 1.2rem;
         border: 1px solid rgba(0, 245, 255, 0.3);
     }
     
     .stTabs [data-baseweb="tab"] {
         border-radius: 15px;
-        padding: 18px 36px;
+        padding: 16px 32px;
         font-weight: 800;
         color: #00f5ff;
-        transition: all 0.3s ease;
-        font-size: 1.15rem;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        border: 2px solid transparent;
-    }
-    
-    .stTabs [data-baseweb="tab"]:hover {
-        background: rgba(0, 245, 255, 0.1);
-        transform: translateY(-3px);
-        border-color: #00f5ff;
+        font-size: 1.1rem;
     }
     
     .stTabs [aria-selected="true"] {
         background: linear-gradient(135deg, #00f5ff 0%, #7b00ff 100%) !important;
         color: #0f0c29 !important;
-        box-shadow: 
-            0 10px 30px rgba(0, 245, 255, 0.5),
-            0 0 20px rgba(123, 0, 255, 0.3);
-        border-color: transparent !important;
+        box-shadow: 0 5px 20px rgba(0, 245, 255, 0.4);
     }
     
-    /* Success notification */
     .success-box {
         background: linear-gradient(135deg, rgba(0, 255, 150, 0.2) 0%, rgba(0, 245, 255, 0.2) 100%);
         border: 3px solid #00ff96;
         border-radius: 20px;
         padding: 2rem;
         text-align: center;
-        font-size: 1.6rem;
+        font-size: 1.4rem;
         font-weight: 800;
         color: #00ff96;
         margin: 2rem 0;
-        box-shadow: 
-            0 0 40px rgba(0, 255, 150, 0.5),
-            inset 0 0 20px rgba(0, 255, 150, 0.1);
-        animation: successGlow 2s ease-in-out infinite;
+        box-shadow: 0 0 30px rgba(0, 255, 150, 0.4);
         text-transform: uppercase;
         letter-spacing: 2px;
     }
     
-    @keyframes successGlow {
-        0%, 100% { 
-            box-shadow: 0 0 40px rgba(0, 255, 150, 0.5), inset 0 0 20px rgba(0, 255, 150, 0.1);
-        }
-        50% { 
-            box-shadow: 0 0 60px rgba(0, 255, 150, 0.7), inset 0 0 30px rgba(0, 255, 150, 0.2);
-        }
-    }
-    
-    /* Metrics with glow */
     [data-testid="stMetricValue"] {
-        font-size: 3rem;
+        font-size: 2.5rem;
         font-weight: 900;
         background: linear-gradient(135deg, #00f5ff 0%, #7b00ff 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.6));
     }
     
     [data-testid="stMetricLabel"] {
         color: #00f5ff !important;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 1px;
     }
     
-    /* Info boxes */
     .stAlert {
         background: rgba(0, 245, 255, 0.1) !important;
         border: 2px solid #00f5ff !important;
         border-radius: 15px !important;
         color: #00f5ff !important;
-        box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
     }
     
-    /* Expander */
     .streamlit-expanderHeader {
         background: linear-gradient(135deg, rgba(0, 245, 255, 0.1) 0%, rgba(123, 0, 255, 0.1) 100%);
         border: 2px solid #00f5ff;
         border-radius: 15px;
         font-weight: 800;
-        font-size: 1.2rem;
-        padding: 1.5rem;
+        font-size: 1.1rem;
+        padding: 1.2rem;
         color: #00f5ff;
-        transition: all 0.3s ease;
         text-transform: uppercase;
-        letter-spacing: 1px;
     }
     
-    .streamlit-expanderHeader:hover {
-        background: linear-gradient(135deg, rgba(0, 245, 255, 0.2) 0%, rgba(123, 0, 255, 0.2) 100%);
-        box-shadow: 0 0 30px rgba(0, 245, 255, 0.4);
-        transform: translateX(10px);
-    }
-    
-    /* Code blocks */
-    code {
-        font-family: 'JetBrains Mono', monospace;
-        background: rgba(0, 245, 255, 0.1);
-        padding: 6px 12px;
-        border-radius: 8px;
-        color: #00f5ff;
-        font-weight: 600;
-        border: 1px solid rgba(0, 245, 255, 0.3);
-    }
-    
-    /* Feature icons */
     .feature-icon {
         font-size: 3rem;
         margin-bottom: 1rem;
-        filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.6));
     }
     
-    /* Stats counter */
-    .stat-counter {
-        font-size: 2.5rem;
-        font-weight: 900;
-        color: #ff006e;
-        text-shadow: 0 0 20px rgba(255, 0, 110, 0.6);
-        font-family: 'JetBrains Mono', monospace;
+    h3 {
+        color: #00f5ff !important;
     }
     
-    /* Selectbox */
+    p, li {
+        color: #a0a0ff !important;
+    }
+    
     .stSelectbox > div > div {
         background: rgba(20, 20, 50, 0.8);
         border: 2px solid #00f5ff;
         border-radius: 12px;
         color: #00f5ff;
-    }
-    
-    /* Copy button special */
-    .copy-btn {
-        background: linear-gradient(135deg, #ff006e 0%, #7b00ff 100%);
-        animation: copyPulse 2s ease-in-out infinite;
-    }
-    
-    @keyframes copyPulse {
-        0%, 100% { box-shadow: 0 10px 40px rgba(255, 0, 110, 0.5); }
-        50% { box-shadow: 0 10px 60px rgba(123, 0, 255, 0.7); }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -503,7 +281,7 @@ with tab1:
         
         with col1:
             if st.button("📋 COPY EMAIL", use_container_width=True):
-                st.write(f"``````")
+                st.code(st.session_state.email, language=None)
                 st.success("✅ Copy the email above!")
         
         with col2:
@@ -564,11 +342,10 @@ with tab2:
     else:
         st.info(f"📧 **Active Email:** `{st.session_state.email}`")
         
-        # Demo messages
         st.markdown("---")
         st.markdown("#### 📨 Incoming Messages (Demo)")
         
-        # Simulated inbox
+        # Demo messages
         demo_messages = [
             {
                 "from": "noreply@example.com",
@@ -609,7 +386,7 @@ with tab2:
                     st.button(f"📋 Copy Content", key=f"copy_{idx}", use_container_width=True)
         
         st.markdown("---")
-        st.info("💡 **Note:** This is a demo inbox. In a real implementation, emails would be fetched from an actual mail server using APIs.")
+        st.info("💡 **Note:** This is a demo inbox. In a real implementation, emails would be fetched from an actual mail server.")
     
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -625,16 +402,16 @@ with tab3:
         st.markdown("""
         <div style="text-align: center;">
             <div class="feature-icon">⚡</div>
-            <h3 style="color: #00f5ff;">Instant Generation</h3>
-            <p style="color: #a0a0ff;">Create disposable emails in milliseconds with zero signup required</p>
+            <h3>Instant Generation</h3>
+            <p>Create disposable emails in milliseconds</p>
         </div>
         """, unsafe_allow_html=True)
         
         st.markdown("""
         <div style="text-align: center; margin-top: 2rem;">
             <div class="feature-icon">🚫</div>
-            <h3 style="color: #00f5ff;">Spam Protection</h3>
-            <p style="color: #a0a0ff;">Keep your real inbox clean and spam-free forever</p>
+            <h3>Spam Protection</h3>
+            <p>Keep your real inbox clean forever</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -642,16 +419,16 @@ with tab3:
         st.markdown("""
         <div style="text-align: center;">
             <div class="feature-icon">🔒</div>
-            <h3 style="color: #00f5ff;">Complete Anonymity</h3>
-            <p style="color: #a0a0ff;">No personal information required. Browse anonymously</p>
+            <h3>Complete Anonymity</h3>
+            <p>No personal information required</p>
         </div>
         """, unsafe_allow_html=True)
         
         st.markdown("""
         <div style="text-align: center; margin-top: 2rem;">
             <div class="feature-icon">⏱️</div>
-            <h3 style="color: #00f5ff;">Auto-Expiry</h3>
-            <p style="color: #a0a0ff;">Emails automatically delete after your chosen time period</p>
+            <h3>Auto-Expiry</h3>
+            <p>Emails automatically delete after time</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -659,16 +436,16 @@ with tab3:
         st.markdown("""
         <div style="text-align: center;">
             <div class="feature-icon">🌐</div>
-            <h3 style="color: #00f5ff;">Multiple Domains</h3>
-            <p style="color: #a0a0ff;">Choose from 10+ domains for maximum flexibility</p>
+            <h3>Multiple Domains</h3>
+            <p>Choose from 10+ domains</p>
         </div>
         """, unsafe_allow_html=True)
         
         st.markdown("""
         <div style="text-align: center; margin-top: 2rem;">
             <div class="feature-icon">🆓</div>
-            <h3 style="color: #00f5ff;">100% Free</h3>
-            <p style="color: #a0a0ff;">No hidden fees, no registration, unlimited use</p>
+            <h3>100% Free</h3>
+            <p>No fees, no registration needed</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -680,21 +457,21 @@ with tab3:
     
     with col1:
         st.markdown("""
-        - ✅ **Website Signups** - Test services without commitment
-        - ✅ **File Downloads** - Get resources without spam
-        - ✅ **Newsletter Trials** - Try before subscribing
-        - ✅ **Contest Entries** - Participate anonymously
-        - ✅ **Beta Testing** - Test apps and services
-        """, unsafe_allow_html=True)
+        - ✅ Website Signups - Test services
+        - ✅ File Downloads - Get resources  
+        - ✅ Newsletter Trials - Try before subscribing
+        - ✅ Contest Entries - Participate anonymously
+        - ✅ Beta Testing - Test apps safely
+        """)
     
     with col2:
         st.markdown("""
-        - ✅ **Form Submissions** - Protect your real email
-        - ✅ **Comments & Forums** - Browse without tracking
-        - ✅ **One-Time Verifications** - Quick OTP codes
-        - ✅ **Shopping Coupons** - Get deals without spam
-        - ✅ **Privacy Protection** - Stay anonymous online
-        """, unsafe_allow_html=True)
+        - ✅ Form Submissions - Protect real email
+        - ✅ Comments & Forums - Browse privately
+        - ✅ One-Time Verifications - Quick OTP
+        - ✅ Shopping Coupons - Get deals
+        - ✅ Privacy Protection - Stay anonymous
+        """)
     
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -704,156 +481,61 @@ with tab4:
     
     st.markdown("### ❓ How Temporary Email Works")
     
-    st.markdown("""
-    Temporary email services provide you with a disposable email address that you can use instead of your real email. 
-    Here's how it works:
-    """)
-    
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown("""
         #### 🔧 Technical Process
         
-        1. **Random Generation** - A unique email address is created using random characters [web:61][web:63]
-        
-        2. **SMTP Server** - Our mail server receives emails sent to your temporary address [web:70]
-        
-        3. **Temporary Storage** - Emails are stored for a limited time (10 mins to few hours) [web:66][web:68]
-        
-        4. **Web Interface** - You can view received emails through our web app [web:67]
-        
-        5. **Auto-Delete** - All emails and addresses are automatically deleted after expiry [web:66][web:69]
+        1. **Random Generation** - Unique email created
+        2. **SMTP Server** - Receives emails
+        3. **Temporary Storage** - Limited time storage
+        4. **Web Interface** - View emails online
+        5. **Auto-Delete** - Automatic cleanup
         """)
     
     with col2:
         st.markdown("""
         #### 🛡️ Privacy Benefits
         
-        - **No Registration** - Start using immediately without signup [web:65][web:68]
-        
-        - **No Personal Info** - We don't collect any data about you [web:65]
-        
-        - **Spam Prevention** - Your real inbox stays clean [web:63][web:66]
-        
-        - **Anti-Tracking** - Prevents websites from tracking your real identity [web:68]
-        
-        - **Disposable** - Use once and forget, no maintenance needed [web:69]
+        - **No Registration** - Instant use
+        - **No Personal Info** - Zero data collection
+        - **Spam Prevention** - Clean inbox
+        - **Anti-Tracking** - Stay anonymous
+        - **Disposable** - Use and forget
         """)
     
     st.markdown("---")
-    
-    st.markdown("### 🎯 Use Cases")
-    
-    with st.expander("📱 Social Media & Apps", expanded=False):
-        st.markdown("""
-        **Scenario:** Want to try a new app but don't trust it yet?
-        
-        - Use temp email for initial signup
-        - Test the app's features
-        - If you like it, update to your real email
-        - If not, just let it expire
-        
-        **Result:** No spam, no data leaks, complete control
-        """)
-    
-    with st.expander("🛍️ Online Shopping", expanded=False):
-        st.markdown("""
-        **Scenario:** Need to get a discount code but don't want marketing emails?
-        
-        - Use temp email to get the coupon
-        - Complete your purchase
-        - Let the email expire after
-        
-        **Result:** Get the deal without the spam
-        """)
-    
-    with st.expander("📥 File Downloads", expanded=False):
-        st.markdown("""
-        **Scenario:** Website requires email to download a file?
-        
-        - Generate a temp email
-        - Enter it on the download form
-        - Get your file link
-        - Email auto-deletes after
-        
-        **Result:** Get your file, avoid spam lists
-        """)
-    
-    with st.expander("🧪 Testing & Development", expanded=False):
-        st.markdown("""
-        **Scenario:** Developer testing email verification flows?
-        
-        - Generate multiple temp emails
-        - Test your email system
-        - No need to create fake accounts
-        
-        **Result:** Quick testing without cluttering real inboxes
-        """)
-    
-    st.markdown("---")
-    
-    st.markdown("### ⚠️ Important Limitations")
     
     st.warning("""
-    **What Temp Email CAN'T do:**
+    **⚠️ Important Limitations:**
     
-    - ❌ Send emails (only receive) [web:66]
-    - ❌ Receive attachments (text/HTML only) [web:66]
-    - ❌ Be used for important accounts
-    - ❌ Be recovered after expiry
-    - ❌ Replace your primary email
+    - ❌ Cannot send emails (receive only)
+    - ❌ No attachments (text/HTML only)
+    - ❌ Not for important accounts
+    - ❌ Cannot recover after expiry
+    - ❌ Not a primary email replacement
     
-    **Best Practice:** Use temp email for temporary, non-critical purposes only!
+    **Best Practice:** Use for temporary, non-critical purposes only!
     """)
     
     st.markdown('</div>', unsafe_allow_html=True)
 
 # Footer
 st.markdown("---")
-
-with st.expander("📊 Statistics & Info"):
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.markdown('<div class="stat-counter">10+</div>', unsafe_allow_html=True)
-        st.markdown("<p style='text-align: center; color: #00f5ff;'>Available Domains</p>", unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown('<div class="stat-counter">∞</div>', unsafe_allow_html=True)
-        st.markdown("<p style='text-align: center; color: #00f5ff;'>Unlimited Emails</p>", unsafe_allow_html=True)
-    
-    with col3:
-        st.markdown('<div class="stat-counter">0</div>', unsafe_allow_html=True)
-        st.markdown("<p style='text-align: center; color: #00f5ff;'>Data Collected</p>", unsafe_allow_html=True)
-    
-    with col4:
-        st.markdown('<div class="stat-counter">100%</div>', unsafe_allow_html=True)
-        st.markdown("<p style='text-align: center; color: #00f5ff;'>Privacy Protected</p>", unsafe_allow_html=True)
-
-st.markdown("---")
-
 st.markdown("""
-<div style="text-align: center; padding: 3rem; 
-background: linear-gradient(135deg, rgba(0, 245, 255, 0.2) 0%, rgba(123, 0, 255, 0.2) 50%, rgba(255, 0, 110, 0.2) 100%); 
-border-radius: 30px; 
-border: 2px solid;
-border-image: linear-gradient(135deg, #00f5ff, #7b00ff, #ff006e) 1;
-box-shadow: 0 0 50px rgba(0, 245, 255, 0.4), 0 0 100px rgba(123, 0, 255, 0.3);">
-    <div style="font-size: 2.5rem; margin-bottom: 1rem; font-weight: 900;">
-        <span style="background: linear-gradient(135deg, #00f5ff 0%, #7b00ff 50%, #ff006e 100%); 
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+<div style="text-align: center; padding: 2rem; 
+background: linear-gradient(135deg, rgba(0, 245, 255, 0.2) 0%, rgba(123, 0, 255, 0.2) 100%); 
+border-radius: 20px; 
+border: 2px solid rgba(0, 245, 255, 0.3);">
+    <div style="font-size: 2rem; font-weight: 900; color: #00f5ff; margin-bottom: 1rem;">
         📧 Temp Mail Generator
-        </span>
     </div>
-    <div style="font-size: 1.3rem; color: #00f5ff; margin-bottom: 0.5rem; font-weight: 700;">
+    <div style="font-size: 1.2rem; color: #00f5ff; font-weight: 700;">
         Made with ❤️ using Streamlit
     </div>
-    <div style="font-size: 1.1rem; color: #a0a0ff; font-weight: 600;">
+    <div style="font-size: 1rem; color: #a0a0ff; margin-top: 0.5rem;">
         Instant • Anonymous • Secure • 100% Free
-    </div>
-    <div style="font-size: 0.95rem; margin-top: 1.5rem; color: #7b00ff; font-weight: 600;">
-        ✨ Protect Your Privacy • Avoid Spam • Stay Anonymous ✨
     </div>
 </div>
 """, unsafe_allow_html=True)
